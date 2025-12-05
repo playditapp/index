@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Playdit | Coming Soon</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg: #050714;
+      --card-bg: rgba(9, 12, 30, 0.95);
+      --accent1: #2ef2ff;
+      --accent2: #ff3df7;
+      --text-main: #f7f8ff;
+      --text-muted: #a6b0d8;
+      --border-subtle: rgba(255, 255, 255, 0.06);
+      --shadow-strong: 0 0 60px rgba(0, 0, 0, 0.85);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
+      background:
+        radial-gradient(circle at top, #20104f 0, transparent 60%),
+        radial-gradient(circle at bottom, #04172f 0, transparent 55%),
+        var(--bg);
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .glow-orbit {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 10% 0%, rgba(46, 242, 255, 0.18), transparent 55%),
+        radial-gradient(circle at 90% 100%, rgba(255, 61, 247, 0.16), transparent 55%);
+      opacity: 0.9;
+      z-index: -1;
+    }
+
+    .shell {
+      position: relative;
+      max-width: 900px;
+      width: 100%;
+    }
+
+    .card {
+      background: linear-gradient(
+          135deg,
+          rgba(46, 242, 255, 0.08),
+          rgba(255, 61, 247, 0.05)
+        ),
+        var(--card-bg);
+      border-radius: 24px;
+      border: 1px solid var(--border-subtle);
+      box-shadow: var(--shadow-strong);
+      padding: 32px 24px 24px;
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      gap: 28px;
+    }
+
+    @media (max-width: 768px) {
+      .card {
+        grid-template-columns: 1fr;
+        padding: 24px 18px 20px;
+      }
+    }
+
+    .logo-block {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 18px;
+    }
+
+    .logo-block img {
+      height: 80px;
+      width: auto;
+      filter: drop-shadow(0 0 24px rgba(76, 244, 255, 0.7));
+    }
+
+    .eyebrow {
+      font-size: 0.78rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--accent1);
+    }
+
+    h1 {
+      font-size: clamp(1.9rem, 3vw, 2.4rem);
+      line-height: 1.1;
+    }
+
+    .tagline {
+      margin-top: 8px;
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      max-width: 30rem;
+    }
+
+    .pill-row {
+      margin-top: 14px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .pill {
+      padding: 6px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      backdrop-filter: blur(12px);
+      background: rgba(7, 11, 34, 0.7);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .pill span.icon-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent1), var(--accent2));
+    }
+
+    .cta-row {
+      margin-top: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .btn {
+      position: relative;
+      border-radius: 999px;
+      padding: 10px 18px;
+      border: none;
+      font-size: 0.88rem;
+      cursor: pointer;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      transition: transform 0.12s ease, box-shadow 0.12s ease,
+        background 0.12s ease;
+      white-space: nowrap;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent1), var(--accent2));
+      color: #03040a;
+      box-shadow: 0 0 30px rgba(80, 122, 255, 0.6);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 0 36px rgba(80, 122, 255, 0.8);
+    }
+
+    .btn-ghost {
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: rgba(5, 7, 24, 0.7);
+      color: var(--text-main);
+    }
+
+    .btn-ghost:hover {
+      background: rgba(10, 14, 40, 0.9);
+      transform: translateY(-1px);
+    }
+
+    .btn .icon-arrow {
+      font-size: 1.05rem;
+    }
+
+    /* Right column */
+
+    .features {
+      border-radius: 18px;
+      padding: 18px 16px 16px;
+      background: radial-gradient(
+          circle at top left,
+          rgba(46, 242, 255, 0.18),
+          transparent 55%
+        ),
+        radial-gradient(
+          circle at bottom right,
+          rgba(255, 61, 247, 0.14),
+          transparent 60%
+        );
+      border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .features-title {
+      font-size: 0.86rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    ul.feature-list {
+      list-style: none;
+      display: grid;
+      gap: 10px;
+      margin-top: 6px;
+    }
+
+    ul.feature-list li {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 10px;
+      align-items: flex-start;
+      font-size: 0.9rem;
+    }
+
+    .feature-icon {
+      width: 26px;
+      height: 26px;
+      border-radius: 999px;
+      background: rgba(6, 10, 34, 0.9);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+    }
+
+    .feature-text strong {
+      display: block;
+      font-size: 0.9rem;
+      margin-bottom: 2px;
+    }
+
+    .feature-text span {
+      color: var(--text-muted);
+      font-size: 0.82rem;
+    }
+
+    /* Footer socials */
+
+    .footer {
+      margin-top: 18px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .social-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .social-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border-radius: 999px;
+      padding: 6px 11px;
+      background: rgba(5, 7, 24, 0.9);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      text-decoration: none;
+      color: var(--text-main);
+      font-size: 0.78rem;
+    }
+
+    .social-pill span.icon-circle {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent1), var(--accent2));
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.78rem;
+      color: #020308;
+    }
+
+    .social-pill:hover {
+      border-color: rgba(255, 255, 255, 0.4);
+    }
+  </style>
+</head>
+<body>
+  <div class="glow-orbit"></div>
+
+  <main class="shell">
+    <section class="card">
+      <!-- LEFT: Logo + headline -->
+      <div class="logo-block">
+        <!-- Replace src with your actual logo file path -->
+        <img src="assets/playdit-logo.png" alt="Playdit logo" />
+
+        <div class="eyebrow">Playdit.co</div>
+        <h1>Playdit is coming soon.</h1>
+        <p class="tagline">
+          A modern hub for streamers and gamers. Boost your channel, connect
+          your platforms, and build a fan-powered community around every game
+          you play.
+        </p>
+
+        <div class="pill-row">
+          <div class="pill">
+            <span class="icon-dot"></span>
+            Streamer boosts &amp; discovery
+          </div>
+          <div class="pill">
+            <span class="icon-dot"></span>
+            All your live streams in one place
+          </div>
+          <div class="pill">
+            <span class="icon-dot"></span>
+            Gaming FAQs &amp; community guides
+          </div>
+        </div>
+
+        <div class="cta-row">
+          <button class="btn btn-primary" type="button">
+            <span class="icon-arrow">▶</span>
+            Stay tuned for launch
+          </button>
+          <button class="btn btn-ghost" type="button">
+            Creator tools in development
+          </button>
+        </div>
+      </div>
+
+      <!-- RIGHT: Feature highlights -->
+      <aside class="features">
+        <div class="features-title">What Playdit is building</div>
+        <ul class="feature-list">
+          <li>
+            <div class="feature-icon">🚀</div>
+            <div class="feature-text">
+              <strong>Streamer boosts</strong>
+              <span>Highlight your channel and surface your content to new audiences on Playdit.</span>
+            </div>
+          </li>
+          <li>
+            <div class="feature-icon">📺</div>
+            <div class="feature-text">
+              <strong>All your live streams in one place</strong>
+              <span>Centralise Twitch, TikTok, YouTube &amp; more so fans always know where you’re live.</span>
+            </div>
+          </li>
+          <li>
+            <div class="feature-icon">🎮</div>
+            <div class="feature-text">
+              <strong>Gaming FAQs &amp; guides</strong>
+              <span>Clean, easy-to-browse game pages with builds, tips and answers from real players.</span>
+            </div>
+          </li>
+          <li>
+            <div class="feature-icon">💬</div>
+            <div class="feature-text">
+              <strong>Fan-based community</strong>
+              <span>Followers, discussions and engagement tools built around you and your favourite games.</span>
+            </div>
+          </li>
+        </ul>
+      </aside>
+    </section>
+
+    <footer class="footer">
+      <div>© <span id="year"></span> Playdit. All rights reserved.</div>
+      <div class="social-row">
+        <a
+          class="social-pill"
+          href="https://www.facebook.com/playdit"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <span class="icon-circle">f</span>
+          <span>@playdit</span>
+        </a>
+        <a
+          class="social-pill"
+          href="https://www.instagram.com/playditapp"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <span class="icon-circle">IG</span>
+          <span>@playditapp</span>
+        </a>
+      </div>
+    </footer>
+  </main>
+
+  <script>
+    // Set current year in footer
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
