@@ -2,18 +2,20 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Playdit | Coming Soon</title>
+  <title>Playdit – Boost Your Stream</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
     :root {
-      --bg: #050714;
-      --card-bg: rgba(9, 12, 30, 0.95);
-      --accent1: #2ef2ff;
-      --accent2: #ff3df7;
-      --text-main: #f7f8ff;
-      --text-muted: #a6b0d8;
-      --border-subtle: rgba(255, 255, 255, 0.06);
-      --shadow-strong: 0 0 60px rgba(0, 0, 0, 0.85);
+      --bg: #050509;
+      --bg-soft: #0b0c12;
+      --text: #f5f5ff;
+      --muted: #9ca3af;
+      --accent-cyan: #00e5ff;
+      --accent-pink: #ff3df4;
+      --card: #0d0f18;
+      --border-soft: rgba(255,255,255,0.06);
+      --radius-xl: 24px;
+      --shadow-soft: 0 20px 50px rgba(0,0,0,0.65);
     }
 
     * {
@@ -23,391 +25,793 @@
     }
 
     body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+        "Inter", sans-serif;
+      background: radial-gradient(circle at top left, rgba(0,229,255,0.18), transparent 55%),
+                  radial-gradient(circle at top right, rgba(255,61,244,0.22), transparent 60%),
+                  var(--bg);
+      color: var(--text);
       min-height: 100vh;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-        sans-serif;
-      background:
-        radial-gradient(circle at top, #20104f 0, transparent 60%),
-        radial-gradient(circle at bottom, #04172f 0, transparent 55%),
-        var(--bg);
-      color: var(--text-main);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 24px;
+      -webkit-font-smoothing: antialiased;
     }
 
-    .glow-orbit {
-      position: absolute;
-      inset: 0;
+    .glow-overlay {
+      position: fixed;
+      inset: -200px;
       pointer-events: none;
+      opacity: 0.65;
+      mix-blend-mode: screen;
       background:
-        radial-gradient(circle at 10% 0%, rgba(46, 242, 255, 0.18), transparent 55%),
-        radial-gradient(circle at 90% 100%, rgba(255, 61, 247, 0.16), transparent 55%);
-      opacity: 0.9;
+        radial-gradient(circle at 20% 20%, rgba(0,229,255,0.3), transparent 55%),
+        radial-gradient(circle at 80% 25%, rgba(255,61,244,0.26), transparent 55%);
       z-index: -1;
     }
 
-    .shell {
-      position: relative;
-      max-width: 900px;
-      width: 100%;
+    a {
+      color: inherit;
+      text-decoration: none;
     }
 
-    .card {
-      background: linear-gradient(
-          135deg,
-          rgba(46, 242, 255, 0.08),
-          rgba(255, 61, 247, 0.05)
-        ),
-        var(--card-bg);
-      border-radius: 24px;
-      border: 1px solid var(--border-subtle);
-      box-shadow: var(--shadow-strong);
-      padding: 32px 24px 24px;
-      display: grid;
-      grid-template-columns: 1.1fr 1fr;
-      gap: 28px;
+    .wrapper {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 24px 20px 80px;
     }
 
-    @media (max-width: 768px) {
-      .card {
-        grid-template-columns: 1fr;
-        padding: 24px 18px 20px;
-      }
+    /* NAVBAR */
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 40px;
     }
 
-    .logo-block {
+    .nav-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo-mark {
+      width: 40px;
+      height: 40px;
+      border-radius: 18px;
+      background:
+        radial-gradient(circle at 20% 0, rgba(0,229,255,0.75), transparent 60%),
+        radial-gradient(circle at 80% 90%, rgba(255,61,244,0.75), transparent 60%),
+        rgba(5,7,14,1);
+      box-shadow:
+        0 0 18px rgba(0,229,255,0.7),
+        0 0 26px rgba(255,61,244,0.7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+    }
+
+    .logo-mark span {
+      font-size: 20px;
+    }
+
+    .logo-text {
       display: flex;
       flex-direction: column;
-      align-items: flex-start;
-      gap: 18px;
+      gap: 2px;
     }
 
-    .logo-block img {
-      height: 80px;
-      width: auto;
-      filter: drop-shadow(0 0 24px rgba(76, 244, 255, 0.7));
+    .logo-title {
+      font-size: 20px;
+      letter-spacing: 0.18em;
+      font-weight: 700;
     }
 
-    .eyebrow {
-      font-size: 0.78rem;
-      letter-spacing: 0.16em;
+    .logo-subtitle {
+      font-size: 11px;
       text-transform: uppercase;
-      color: var(--accent1);
+      color: var(--muted);
+      letter-spacing: 0.24em;
     }
 
-    h1 {
-      font-size: clamp(1.9rem, 3vw, 2.4rem);
-      line-height: 1.1;
-    }
-
-    .tagline {
-      margin-top: 8px;
-      color: var(--text-muted);
-      font-size: 0.95rem;
-      max-width: 30rem;
-    }
-
-    .pill-row {
-      margin-top: 14px;
+    .nav-right {
       display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
+      align-items: center;
+      gap: 12px;
+      font-size: 14px;
     }
 
     .pill {
       padding: 6px 12px;
       border-radius: 999px;
-      border: 1px solid rgba(255, 255, 255, 0.16);
-      font-size: 0.78rem;
-      color: var(--text-muted);
-      backdrop-filter: blur(12px);
-      background: rgba(7, 11, 34, 0.7);
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .pill span.icon-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, var(--accent1), var(--accent2));
-    }
-
-    .cta-row {
-      margin-top: 20px;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-    }
-
-    .btn {
-      position: relative;
-      border-radius: 999px;
-      padding: 10px 18px;
-      border: none;
-      font-size: 0.88rem;
-      cursor: pointer;
-      font-weight: 600;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      text-decoration: none;
-      transition: transform 0.12s ease, box-shadow 0.12s ease,
-        background 0.12s ease;
-      white-space: nowrap;
+      border: 1px solid rgba(255,255,255,0.1);
+      color: var(--muted);
     }
 
     .btn-primary {
-      background: linear-gradient(135deg, var(--accent1), var(--accent2));
-      color: #03040a;
-      box-shadow: 0 0 30px rgba(80, 122, 255, 0.6);
+      padding: 8px 18px;
+      border-radius: 999px;
+      border: none;
+      outline: none;
+      background-image: linear-gradient(135deg, var(--accent-cyan), var(--accent-pink));
+      color: #050509;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      box-shadow:
+        0 0 20px rgba(0,229,255,0.7),
+        0 0 32px rgba(255,61,244,0.7);
+      transition: transform 0.12s ease, box-shadow 0.12s ease, filter 0.12s ease;
     }
 
     .btn-primary:hover {
       transform: translateY(-1px);
-      box-shadow: 0 0 36px rgba(80, 122, 255, 0.8);
+      filter: brightness(1.04);
+      box-shadow:
+        0 0 24px rgba(0,229,255,0.9),
+        0 0 40px rgba(255,61,244,0.9);
     }
 
     .btn-ghost {
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      background: rgba(5, 7, 24, 0.7);
-      color: var(--text-main);
+      padding: 8px 16px;
+      border-radius: 999px;
+      background: rgba(10,12,20,0.7);
+      border: 1px solid rgba(255,255,255,0.12);
+      color: var(--text);
+      font-size: 14px;
+      cursor: pointer;
+      transition: background 0.15s ease, border-color 0.15s ease, transform 0.12s ease;
     }
 
     .btn-ghost:hover {
-      background: rgba(10, 14, 40, 0.9);
+      background: rgba(19,23,45,0.96);
+      border-color: rgba(255,255,255,0.22);
       transform: translateY(-1px);
     }
 
-    .btn .icon-arrow {
-      font-size: 1.05rem;
-    }
+    /* HERO */
 
-    /* Right column */
-
-    .features {
-      border-radius: 18px;
-      padding: 18px 16px 16px;
-      background: radial-gradient(
-          circle at top left,
-          rgba(46, 242, 255, 0.18),
-          transparent 55%
-        ),
-        radial-gradient(
-          circle at bottom right,
-          rgba(255, 61, 247, 0.14),
-          transparent 60%
-        );
-      border: 1px solid rgba(255, 255, 255, 0.12);
-    }
-
-    .features-title {
-      font-size: 0.86rem;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      color: var(--text-muted);
-      margin-bottom: 8px;
-    }
-
-    ul.feature-list {
-      list-style: none;
+    .hero {
       display: grid;
+      grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+      gap: 36px;
+      margin-bottom: 52px;
+      align-items: center;
+    }
+
+    @media (max-width: 900px) {
+      .hero {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .nav-right {
+        display: none;
+      }
+    }
+
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: rgba(6,10,24,0.9);
+      border: 1px solid rgba(255,255,255,0.08);
+      color: var(--muted);
+      margin-bottom: 14px;
+    }
+
+    .hero-tag-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-pink));
+      box-shadow:
+        0 0 10px rgba(0,229,255,0.9),
+        0 0 18px rgba(255,61,244,0.9);
+    }
+
+    .hero-title {
+      font-size: clamp(34px, 5vw, 46px);
+      line-height: 1.04;
+      margin-bottom: 18px;
+    }
+
+    .hero-title span.gradient {
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-pink));
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .hero-text {
+      font-size: 15px;
+      line-height: 1.6;
+      color: var(--muted);
+      max-width: 480px;
+      margin-bottom: 22px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .hero-meta strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    /* HERO RIGHT – LIVE SESSIONS / BOOST PANEL */
+
+    .hero-panel {
+      position: relative;
+      border-radius: var(--radius-xl);
+      background: radial-gradient(circle at top, rgba(0,229,255,0.12), transparent 60%),
+                  radial-gradient(circle at bottom right, rgba(255,61,244,0.12), transparent 55%),
+                  linear-gradient(145deg, #050712, #05040b);
+      padding: 18px 16px 16px;
+      box-shadow: var(--shadow-soft);
+      border: 1px solid rgba(255,255,255,0.12);
+      overflow: hidden;
+    }
+
+    .panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      font-size: 13px;
+    }
+
+    .panel-title {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .panel-title span:first-child {
+      font-weight: 600;
+    }
+
+    .panel-title span:last-child {
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .pill-mini {
+      font-size: 11px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.18);
+      background: rgba(2,6,23,0.9);
+      display: inline-flex;
+      gap: 6px;
+      align-items: center;
+      color: var(--muted);
+    }
+
+    .pill-mini span.dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: #f97373;
+      box-shadow: 0 0 12px rgba(248,113,113,0.9);
+    }
+
+    .streamer-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .streamer-card {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 10px;
+      border-radius: 18px;
+      background: rgba(10,11,22,0.9);
+      border: 1px solid rgba(255,255,255,0.06);
+      backdrop-filter: blur(18px);
+    }
+
+    .avatar {
+      width: 34px;
+      height: 34px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 0, rgba(255,255,255,0.3), transparent 60%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .avatar::after {
+      content: "";
+      position: absolute;
+      inset: -2px;
+      border-radius: inherit;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .streamer-main {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .streamer-name {
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+
+    .streamer-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .badge-platform {
+      padding: 2px 7px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.15);
+      background: rgba(15,23,42,0.9);
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .viewers-pill {
+      padding: 2px 7px;
+      border-radius: 999px;
+      background: rgba(248,113,113,0.15);
+      color: #fecaca;
+      border: 1px solid rgba(248,113,113,0.4);
+    }
+
+    .boost-chip {
+      font-size: 11px;
+      padding: 4px 9px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 0 0, rgba(0,229,255,0.65), transparent 60%),
+                  radial-gradient(circle at 100% 100%, rgba(255,61,244,0.7), transparent 60%);
+      border: none;
+      color: #050509;
+      cursor: pointer;
+      font-weight: 600;
+      white-space: nowrap;
+      box-shadow:
+        0 0 12px rgba(0,229,255,0.9),
+        0 0 18px rgba(255,61,244,0.9);
+      transition: transform 0.1s ease;
+    }
+
+    .boost-chip:hover {
+      transform: translateY(-1px);
+    }
+
+    .panel-footer {
+      display: flex;
+      justify-content: space-between;
       gap: 10px;
       margin-top: 6px;
     }
 
-    ul.feature-list li {
-      display: grid;
-      grid-template-columns: auto 1fr;
-      gap: 10px;
-      align-items: flex-start;
-      font-size: 0.9rem;
+    .footer-tagline {
+      font-size: 11px;
+      color: var(--muted);
     }
 
-    .feature-icon {
-      width: 26px;
-      height: 26px;
+    .footer-tagline span {
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    /* TOP BOOSTERS + FEATURES GRID */
+
+    .grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+      gap: 24px;
+      margin-bottom: 48px;
+    }
+
+    @media (max-width: 900px) {
+      .grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .card {
+      border-radius: var(--radius-xl);
+      background: rgba(8,10,20,0.92);
+      border: 1px solid var(--border-soft);
+      padding: 18px 18px 16px;
+      box-shadow: 0 18px 40px rgba(0,0,0,0.6);
+      backdrop-filter: blur(14px);
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .card-title {
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .card-sub {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .badge-soft {
+      font-size: 11px;
+      padding: 4px 8px;
       border-radius: 999px;
-      background: rgba(6, 10, 34, 0.9);
-      border: 1px solid rgba(255, 255, 255, 0.18);
-      display: inline-flex;
+      background: rgba(15,23,42,0.96);
+      border: 1px solid rgba(255,255,255,0.12);
+      color: var(--muted);
+    }
+
+    .boosters-list {
+      margin-top: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .booster-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 8px;
+      border-radius: 14px;
+      background: rgba(12,14,24,0.9);
+    }
+
+    .booster-rank {
+      width: 24px;
+      height: 24px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.18);
+      display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 0.9rem;
+      font-size: 12px;
+      color: var(--muted);
     }
 
-    .feature-text strong {
-      display: block;
-      font-size: 0.9rem;
+    .booster-main {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .booster-name {
+      font-size: 13px;
+      font-weight: 500;
       margin-bottom: 2px;
     }
 
-    .feature-text span {
-      color: var(--text-muted);
-      font-size: 0.82rem;
+    .booster-meta {
+      font-size: 11px;
+      color: var(--muted);
     }
 
-    /* Footer socials */
+    .booster-points {
+      font-size: 12px;
+      font-weight: 600;
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-pink));
+      -webkit-background-clip: text;
+      color: transparent;
+    }
 
-    .footer {
-      margin-top: 18px;
+    .features-list {
+      margin-top: 8px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 10px;
+      font-size: 13px;
+    }
+
+    .feature-item {
+      padding: 10px 10px;
+      border-radius: 16px;
+      background: rgba(11,13,24,0.92);
+      border: 1px solid rgba(255,255,255,0.08);
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .feature-label {
+      font-weight: 500;
+    }
+
+    .feature-body {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    /* ROADMAP / FOOTER */
+
+    .bottom {
       display: flex;
       flex-wrap: wrap;
       justify-content: space-between;
-      gap: 12px;
-      align-items: center;
-      font-size: 0.8rem;
-      color: var(--text-muted);
+      gap: 20px;
+      font-size: 12px;
+      color: var(--muted);
+      border-top: 1px solid rgba(255,255,255,0.06);
+      padding-top: 16px;
     }
 
-    .social-row {
+    .roadmap-list {
+      list-style: none;
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
-      align-items: center;
     }
 
-    .social-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
+    .roadmap-list li {
+      padding: 6px 10px;
       border-radius: 999px;
-      padding: 6px 11px;
-      background: rgba(5, 7, 24, 0.9);
-      border: 1px solid rgba(255, 255, 255, 0.16);
-      text-decoration: none;
-      color: var(--text-main);
-      font-size: 0.78rem;
+      border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(9,9,16,0.9);
     }
 
-    .social-pill span.icon-circle {
-      width: 16px;
-      height: 16px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, var(--accent1), var(--accent2));
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.78rem;
-      color: #020308;
+    .roadmap-list span {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--muted);
     }
 
-    .social-pill:hover {
-      border-color: rgba(255, 255, 255, 0.4);
+    .roadmap-list strong {
+      display: block;
+      font-size: 11px;
+      color: var(--text);
+      margin-top: 1px;
+    }
+
+    .copyright {
+      opacity: 0.85;
     }
   </style>
 </head>
 <body>
-  <div class="glow-orbit"></div>
+<div class="glow-overlay"></div>
 
-  <main class="shell">
-    <section class="card">
-      <!-- LEFT: Logo + headline -->
-      <div class="logo-block">
-        <!-- Replace src with your actual logo file path -->
-        <img src="playdit-logo.png" alt="Playdit logo" />
+<div class="wrapper">
+  <!-- NAV -->
+  <header class="nav">
+    <div class="nav-left">
+      <div class="logo-mark">
+        <span>P</span>
+      </div>
+      <div class="logo-text">
+        <div class="logo-title">PLAYDIT</div>
+        <div class="logo-subtitle">BOOST THE STREAM</div>
+      </div>
+    </div>
+    <div class="nav-right">
+      <div class="pill">For Streamers &amp; Communities</div>
+      <button class="btn-ghost">Join the beta</button>
+      <button class="btn-primary">Get the app</button>
+    </div>
+  </header>
 
-        <div class="eyebrow">Playdit.co</div>
-        <h1>Playdit is coming soon.</h1>
-        <p class="tagline">
-          A modern hub for streamers and gamers. Boost your channel, connect
-          your platforms, and build a fan-powered community around every game
-          you play.
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-left">
+      <div class="hero-tag">
+        <div class="hero-tag-dot"></div>
+        <span>New • Multi-platform streamer boosts</span>
+      </div>
+      <h1 class="hero-title">
+        Boost your <span class="gradient">stream</span>.<br />
+        Unite <span class="gradient">Discord, Twitch &amp; TikTok</span> in one place.
+      </h1>
+      <p class="hero-text">
+        Playdit is the hub where communities supercharge their favourite creators.
+        Discover live streamers, drop boosts, and sync your Discord, Twitch and
+        TikTok — with profiles and advanced insights coming soon.
+      </p>
+      <div class="hero-actions">
+        <button class="btn-primary">I’m a streamer</button>
+        <button class="btn-ghost">I want to boost creators</button>
+      </div>
+      <div class="hero-meta">
+        <span><strong>Live now:</strong> 32 streamers</span>
+        <span>Early access • No credit card required</span>
+      </div>
+    </div>
+
+    <!-- RIGHT PANEL: LIVE STREAMERS -->
+    <aside class="hero-panel">
+      <div class="panel-header">
+        <div class="panel-title">
+          <span>Live Streamers</span>
+          <span>Preview of how boosts will look inside Playdit.</span>
+        </div>
+        <div class="pill-mini">
+          <span class="dot"></span>
+          <span>Live activity</span>
+        </div>
+      </div>
+
+      <div class="streamer-list">
+        <div class="streamer-card">
+          <div class="avatar"></div>
+          <div class="streamer-main">
+            <div class="streamer-name">SolarFox</div>
+            <div class="streamer-meta">
+              <span class="badge-platform">Twitch</span>
+              <span class="viewers-pill">734 watching</span>
+              <span>Valorant • Ranked grind</span>
+            </div>
+          </div>
+          <button class="boost-chip">Boost +120</button>
+        </div>
+
+        <div class="streamer-card">
+          <div class="avatar"></div>
+          <div class="streamer-main">
+            <div class="streamer-name">LunaBytes</div>
+            <div class="streamer-meta">
+              <span class="badge-platform">TikTok Live</span>
+              <span class="viewers-pill">312 watching</span>
+              <span>IRL • Chill &amp; chat</span>
+            </div>
+          </div>
+          <button class="boost-chip">Boost +80</button>
+        </div>
+
+        <div class="streamer-card">
+          <div class="avatar"></div>
+          <div class="streamer-main">
+            <div class="streamer-name">CritNinja</div>
+            <div class="streamer-meta">
+              <span class="badge-platform">Discord Stage</span>
+              <span class="viewers-pill">128 listening</span>
+              <span>D&amp;D session live</span>
+            </div>
+          </div>
+          <button class="boost-chip">Boost +45</button>
+        </div>
+      </div>
+
+      <div class="panel-footer">
+        <p class="footer-tagline">
+          <span>Boosts</span> lift creators across Discord, Twitch &amp; TikTok at once.
         </p>
+      </div>
+    </aside>
+  </section>
 
-        <div class="pill-row">
-          <div class="pill">
-            <span class="icon-dot"></span>
-            Streamer boosts &amp; discovery
+  <!-- GRID: TOP BOOSTERS & FEATURES -->
+  <section class="grid">
+    <!-- TOP BOOSTERS -->
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-title">Top Boosters</div>
+          <div class="card-sub">Recognise the fans powering your stream.</div>
+        </div>
+        <div class="badge-soft">Season 0 • Preview</div>
+      </div>
+      <div class="boosters-list">
+        <div class="booster-row">
+          <div class="booster-rank">#1</div>
+          <div class="booster-main">
+            <div class="booster-name">EchoCrew</div>
+            <div class="booster-meta">Boosting SolarFox &amp; 4 more creators</div>
           </div>
-          <div class="pill">
-            <span class="icon-dot"></span>
-            All your live streams in one place
+          <div class="booster-points">12,430 pts</div>
+        </div>
+        <div class="booster-row">
+          <div class="booster-rank">#2</div>
+          <div class="booster-main">
+            <div class="booster-name">NightOwl</div>
+            <div class="booster-meta">Drops boosts every late-night stream</div>
           </div>
-          <div class="pill">
-            <span class="icon-dot"></span>
-            Gaming FAQs &amp; community guides
+          <div class="booster-points">9,880 pts</div>
+        </div>
+        <div class="booster-row">
+          <div class="booster-rank">#3</div>
+          <div class="booster-main">
+            <div class="booster-name">PixelFam</div>
+            <div class="booster-meta">Community boosting across platforms</div>
+          </div>
+          <div class="booster-points">7,610 pts</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FEATURES -->
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-title">Why Playdit?</div>
+          <div class="card-sub">Built for streamers, mods &amp; community leads.</div>
+        </div>
+      </div>
+      <div class="features-list">
+        <div class="feature-item">
+          <div class="feature-label">One hub for Discord, Twitch &amp; TikTok</div>
+          <div class="feature-body">
+            Link your channels once and manage boosts, shout-outs and live status
+            from a single Playdit profile.
           </div>
         </div>
 
-        <div class="cta-row">
-          <button class="btn btn-primary" type="button">
-            <span class="icon-arrow">▶</span>
-            Stay tuned for launch
-          </button>
-          <button class="btn btn-ghost" type="button">
-            Creator tools in development
-          </button>
+        <div class="feature-item">
+          <div class="feature-label">Smart boosts, not empty numbers</div>
+          <div class="feature-body">
+            Boosts are designed to highlight you in community feeds and across
+            connected platforms, not just sit in a leaderboard.
+          </div>
+        </div>
+
+        <div class="feature-item">
+          <div class="feature-label">Profiles (coming soon)</div>
+          <div class="feature-body">
+            Public streamer profiles that showcase all your platforms, live schedule,
+            and your top boosters in one place.
+          </div>
+        </div>
+
+        <div class="feature-item">
+          <div class="feature-label">Community-first</div>
+          <div class="feature-body">
+            Mods and community leads will get tools to feature creators,
+            organise events and reward supporters across multiple platforms.
+          </div>
         </div>
       </div>
+    </div>
+  </section>
 
-      <!-- RIGHT: Feature highlights -->
-      <aside class="features">
-        <div class="features-title">What Playdit is building</div>
-        <ul class="feature-list">
-          <li>
-            <div class="feature-icon">🚀</div>
-            <div class="feature-text">
-              <strong>Streamer boosts</strong>
-              <span>Highlight your channel and surface your content to new audiences on Playdit.</span>
-            </div>
-          </li>
-          <li>
-            <div class="feature-icon">📺</div>
-            <div class="feature-text">
-              <strong>All your live streams in one place</strong>
-              <span>Centralise Twitch, TikTok, YouTube &amp; more so fans always know where you’re live.</span>
-            </div>
-          </li>
-          <li>
-            <div class="feature-icon">🎮</div>
-            <div class="feature-text">
-              <strong>Gaming FAQs &amp; guides</strong>
-              <span>Clean, easy-to-browse game pages with builds, tips and answers from real players.</span>
-            </div>
-          </li>
-          <li>
-            <div class="feature-icon">💬</div>
-            <div class="feature-text">
-              <strong>Fan-based community</strong>
-              <span>Followers, discussions and engagement tools built around you and your favourite games.</span>
-            </div>
-          </li>
-        </ul>
-      </aside>
-    </section>
+  <!-- ROADMAP + FOOTER -->
+  <footer class="bottom">
+    <ul class="roadmap-list">
+      <li>
+        <span>NOW</span>
+        <strong>Private beta for streamers</strong>
+      </li>
+      <li>
+        <span>SOON</span>
+        <strong>Public profiles &amp; cross-platform boosts</strong>
+      </li>
+      <li>
+        <span>LATER</span>
+        <strong>Analytics, team pages &amp; monetisation</strong>
+      </li>
+    </ul>
+    <div class="copyright">
+      © <span id="year"></span> Playdit. Built for creators.
+    </div>
+  </footer>
+</div>
 
-    <footer class="footer">
-      <div>© <span id="year"></span> Playdit. All rights reserved.</div>
-      <div class="social-row">
-        <a
-          class="social-pill"
-          href="https://www.facebook.com/playdit"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <span class="icon-circle">f</span>
-          <span>@playdit</span>
-        </a>
-        <a
-          class="social-pill"
-          href="https://www.instagram.com/playditapp"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <span class="icon-circle">IG</span>
-          <span>@playditapp</span>
-        </a>
-      </div>
-    </footer>
-  </main>
-
-  <script>
-    // Set current year in footer
-    document.getElementById("year").textContent = new Date().getFullYear();
-  </script>
+<script>
+  // Simple current year
+  document.getElementById('year').textContent = new Date().getFullYear();
+</script>
 </body>
 </html>
+
